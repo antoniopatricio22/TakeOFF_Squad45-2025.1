@@ -59,7 +59,7 @@ public class SecurityConfig {
             "http://127.0.0.1:5500", 
             "http://localhost:3000", 
             "https://takeoff-squad45-2025-1.onrender.com",
-            "https://antoniopatricio22.github.io/TakeOFF_Squad45-2025.1/"
+            "https://antoniopatricio22.github.io"
 
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
