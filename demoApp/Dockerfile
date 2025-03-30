@@ -16,6 +16,7 @@ WORKDIR /app
 # Copia apenas o JAR necessário
 COPY --from=build /app/target/demoApp-0.0.1-SNAPSHOT.jar /app/app.jar
 COPY ./demoApp/database /app/database
+COPY ./demoApp/.env /app/.env
 
 # Cria o diretório para o volume mas não copia dados iniciais
 RUN mkdir -p /app/database
