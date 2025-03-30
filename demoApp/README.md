@@ -11,7 +11,7 @@
 
 ## Pré-requisitos
 
-1. **Java JDK 21** ou superior
+1. **Java JDK 21** ou superio
 2. **Maven 3.9+**
 3. Um editor de texto ou IDE (ex.: IntelliJ IDEA, VSCode, Eclipse)
 4. Banco de dados (SQLite incluído; para MySQL, é necessário instalá-lo e configurá-lo)
