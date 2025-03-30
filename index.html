@@ -3,65 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - TakeOFF Squad45</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            margin: 0;
             background-color: #f4f4f4;
         }
         .container {
             background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
             text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         input, button {
-            margin: 10px 0;
-            padding: 10px;
             width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
         }
-        .message {
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
             margin-top: 10px;
             font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .user-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .user-info h3 {
+            margin-top: 0;
+        }
+        .user-info p {
+            margin: 5px 0;
+        }
+        .user-info .label {
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .token-info {
+            margin-top: 15px;
+            word-break: break-all;
+            font-size: 12px;
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .logout-btn {
+            background-color: #d9534f;
+            margin-top: 15px;
+        }
+        .logout-btn:hover {
+            background-color: #c9302c;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Senha">
+    <div class="container" id="loginContainer">
+        <h2>Login TakeOFF</h2>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Seu email">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" placeholder="Sua senha">
+        </div>
         <button onclick="login()">Entrar</button>
-        <p class="message" id="message"></p>
+        <div id="message" class="message hidden"></div>
+    </div>
+
+    <div class="container hidden" id="userContainer">
+        <h2>Bem-vindo!</h2>
+        <div class="user-info" id="userInfo">
+            <!-- As informações do usuário serão inseridas aqui -->
+        </div>
+        <div class="token-section">
+            <h3>Token JWT:</h3>
+            <div class="token-info" id="tokenInfo">
+                <!-- O token será inserido aqui -->
+            </div>
+        </div>
+        <button class="logout-btn" onclick="logout()">Sair</button>
     </div>
 
     <script>
+        // Verificar se o usuário já está logado ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            
+            if (token && userData) {
+                showUserInfo(JSON.parse(userData), token);
+            }
+        });
+
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const messageEl = document.getElementById('message');
             
-            const response = await fetch('https://antoniopatricio22.github.io/TakeOFF_Squad45-2025.1/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-                credentials:"include"
-            });
-            
-            const result = await response.json();
-            
-            if (result.status === 'success') {
-                messageEl.textContent = 'Login bem-sucedido!';
-                messageEl.style.color = 'green';
-            } else {
-                messageEl.textContent = 'Erro: ' + result.message;
-                messageEl.style.color = 'red';
+            // Validar campos
+            if (!email || !password) {
+                showMessage('Por favor, preencha todos os campos.', 'error');
+                return;
             }
+            
+            const apiUrl = 'https://takeoff-squad45-2025-1.onrender.com/auth/login';
+            
+            try {
+                messageEl.textContent = 'Conectando...';
+                messageEl.className = 'message';
+                messageEl.classList.remove('hidden');
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Armazenar token e dados do usuário
+                    const token = result.data.token;
+                    const userData = result.data.usuario;
+                    
+                    localStorage.setItem('authToken', token);
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    showMessage('Login realizado com sucesso!', 'success');
+                    
+                    // Mostrar informações do usuário
+                    setTimeout(() => {
+                        showUserInfo(userData, token);
+                    }, 1000);
+                } else {
+                    showMessage('Erro: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                showMessage('Erro ao conectar com o servidor. Verifique sua conexão.', 'error');
+            }
+        }
+        
+        function showUserInfo(userData, token) {
+            // Preencher as informações do usuário
+            const userInfoEl = document.getElementById('userInfo');
+            userInfoEl.innerHTML = `
+                <h3>Dados do Usuário</h3>
+                <p><span class="label">ID:</span> ${userData.id}</p>
+                <p><span class="label">Nome:</span> ${userData.nome}</p>
+                <p><span class="label">Email:</span> ${userData.email}</p>
+                <p><span class="label">CPF:</span> ${userData.cpf}</p>
+                <p><span class="label">Perfil:</span> ${userData.role}</p>
+            `;
+            
+            // Exibir o token
+            document.getElementById('tokenInfo').textContent = token;
+            
+            // Alternar entre os containers
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('userContainer').classList.remove('hidden');
+        }
+        
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type;
+            messageEl.classList.remove('hidden');
+        }
+        
+        function logout() {
+            // Limpar dados do localStorage
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            
+            // Limpar campos de formulário
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            
+            // Ocultar mensagem
+            document.getElementById('message').classList.add('hidden');
+            
+            // Voltar para a tela de login
+            document.getElementById('userContainer').classList.add('hidden');
+            document.getElementById('loginContainer').classList.remove('hidden');
         }
     </script>
 </body>
