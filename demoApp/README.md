@@ -49,7 +49,7 @@ spring.datasource.password=sua_senha
 spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 
 ```
-2 Crie um banco de dados vazio chamado compesa no MySQL:
+2 Crie um banco de dados vazio chamado demoApp no MySQL:
 ```bash
 CREATE DATABASE demoApp;
 ```
@@ -74,7 +74,7 @@ mvn clean package
 ```
 2. Suba o .jar em seu servidor:
 ```bash
-java -jar target/compesa-0.0.1-SNAPSHOT.jar
+java -jar target/demoApp-0.0.1-SNAPSHOT.jar
 
 ```
 
@@ -83,7 +83,7 @@ Render é uma plataforma de nuvem simples para hospedar aplicações. Siga os pa
 
 1. Preparação do Repositório:
   - Certifique-se de que o repositório do projeto está no GitHub ou GitLab.
-  - O arquivo target/compesa-0.0.1-SNAPSHOT.jar será gerado ao executar o comando mvn clean package.
+  - O arquivo target/demoApp-0.0.1-SNAPSHOT.jar será gerado ao executar o comando mvn clean package.
 
 2. Criação do Serviço no Render:
   - Acesse sua conta no Render.
@@ -99,7 +99,7 @@ Render é uma plataforma de nuvem simples para hospedar aplicações. Siga os pa
         ```
       - Start Command:
         ```bash
-        java -jar target/compesa-0.0.1-SNAPSHOT.jar
+        java -jar target/demoApp-0.0.1-SNAPSHOT.jar
         ```
 
 4. Configuração de Variáveis de Ambiente:
@@ -149,13 +149,19 @@ Response:
 json
 ```bash
 {
-  "status": "success",
-  "message": "Login realizado com sucesso",
-  "data": {
-    "token": "jwt_token",
-    "role": "Role_do_Usuario"
+    "status": "success",
+    "message": "Login realizado com sucesso",
+    "data": {
+        "usuario": {
+            "id": 1,
+            "email": "admin@exemplo.com",
+            "nome": "Pedro Paulo",
+            "cpf": "016.827.070-67",
+            "role": "ADMINISTRADOR"
+        },
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGVtcGxvLmNvbSIsInJvbGUiOiJST0xFX0FETUlOSVNUUkFET1IiLCJpYXQiOjE3NDM1MzcyMTMsImV4cCI6MTc0MzU1MTYxM30.EUNQ4T4tz_zzbFcBX8tGDJXkyaHM3GQ_VYrF2H4wLhOMuiwdBcT4G64m-Zd7_B81Qzy4pygpHOlEca6O8VEang"
     },
-  "error": null
+    "error": null
 }
 ```
 
@@ -185,7 +191,8 @@ json
   "email": "proprietario@exemplo.com",
   "password": "senha123",
   "confirmPassword": "senha123",
-  "nome": "João Silva"
+  "nome": "João Silva",
+  "cpf": "424.053.410-00"
 }
 ```
 Response:
@@ -223,3 +230,80 @@ json
     "error": "Email já cadastrado"
 }
 ```
+
+- Error: Senhas não coincidem
+
+json
+```bash
+{
+    "status": "error",
+    "message": "Erro de validação",
+    "data": null,
+    "error": "As senhas não coincidem"
+}
+```
+- Error: CPF já Cadastrado.
+
+json
+```bash
+{
+    "status": "error",
+    "message": "Erro de validação",
+    "data": null,
+    "error": "CPF já cadastrado"
+}
+```
+
+- Error: CPF inválido, mal formatado ou ausente.
+
+Error: 403 Forbidden
+
+Resposta resposta de erro customizada a ser implementada.
+
+3. **Registro de Administrador**
+Endpoint: /registro/administrador
+<br>Method: POST
+<br>Description: Cria uma nova conta de Administrador.
+
+
+Request Headers:
+
+Authorization: Bearer <jwt_token_here>
+
+Request Body:
+
+json
+```bash
+{
+    "email": "paulo@exemplo.com",
+    "password": "senha123",
+    "confirmPassword": "senha123",
+    "nome": "Nome do Proprietário",
+    "cpf": "747.183.590-74"
+}
+```
+
+Response:
+
+- Success:
+
+json
+```bash
+{
+    "status": "success",
+    "message": "Administrador registrado com sucesso",
+    "data": {
+        "id": 3,
+        "email": "paulo@exemplo.com",
+        "nome": "Nome do Proprietário",
+        "cpf": "747.183.590-74",
+        "role": "ADMINISTRADOR"
+    },
+    "error": null
+}
+```
+
+Demais Erros Equivalentes aos de Registro de Proprietário
+
+---
+
