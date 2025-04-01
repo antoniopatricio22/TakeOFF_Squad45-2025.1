@@ -152,14 +152,14 @@ json
     "status": "success",
     "message": "Login realizado com sucesso",
     "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGVtcGxvLmNvbSIsInJvbGUiOiJST0xFX0FETUlOSVNUUkFET1IiLCJpYXQiOjE3NDM1NDE3MzMsImV4cCI6MTc0MzU1NjEzM30.KzCfRoOjzV_oGjR7z-dL-bobE5bzCT-jOgmxKoj6QuMhqHj9bf_m1j4Bcl_1NA1TqrH1F9FUP7p2cfod5LtAFw",
         "usuario": {
             "id": 1,
             "email": "admin@exemplo.com",
             "nome": "Pedro Paulo",
             "cpf": "016.827.070-67",
             "role": "ADMINISTRADOR"
-        },
-        "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGVtcGxvLmNvbSIsInJvbGUiOiJST0xFX0FETUlOSVNUUkFET1IiLCJpYXQiOjE3NDM1MzcyMTMsImV4cCI6MTc0MzU1MTYxM30.EUNQ4T4tz_zzbFcBX8tGDJXkyaHM3GQ_VYrF2H4wLhOMuiwdBcT4G64m-Zd7_B81Qzy4pygpHOlEca6O8VEang"
+        }
     },
     "error": null
 }
