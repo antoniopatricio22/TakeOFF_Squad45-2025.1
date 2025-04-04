@@ -9,7 +9,7 @@ public class UsuarioDTO {
     private String cpf;
     private Role role;
     
-    // Getters and setters
+    
     public Long getId() {
         return id;
     }

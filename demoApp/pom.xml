@@ -69,15 +69,23 @@
         </dependency>
 
         <!-- SQLite JDBC and Hibernate Dialects -->
-        <dependency>
+        <!--dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.47.0.0</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-community-dialects</artifactId>
             <version>6.6.1.Final</version>
+        </dependency>
+
+        
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
         </dependency>
 
         <!-- Testing and Logging dependencies -->

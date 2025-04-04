@@ -21,7 +21,7 @@ public class StandardResponse<T> {
         return new StandardResponse<>("error", message, null, error);
     }
 
-    // Getters and setters
+    
     public String getStatus() {
         return status;
     }

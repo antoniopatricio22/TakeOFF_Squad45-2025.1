@@ -14,10 +14,9 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Permitir todas as origens ou especificar sua origem frontend
+        
         config.addAllowedOrigin("*");  // Para desenvolvimento. Em produção, especifique a origem exata
         
-        // Permitir cabeçalhos e métodos necessários
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);

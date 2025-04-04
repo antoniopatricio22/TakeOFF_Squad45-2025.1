@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .requestMatchers("/registro/proprietario").permitAll()
                 .requestMatchers("/registro/administrador").hasRole("ADMINISTRADOR")
                 .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMINISTRADOR")
+                .requestMatchers("/propriedades").hasAnyRole("ADMINISTRADOR", "PROPRIETARIO")
                 .anyRequest().authenticated())
             .addFilterBefore(new JwtAuthorizationFilter(jwtTokenService, usuarioService),
                 UsernamePasswordAuthenticationFilter.class);
@@ -53,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Especifique origens específicas em vez de "*"
+        // Só para testes. Especifique origens específicas em vez de "*"
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:5500", 
             "http://127.0.0.1:5500", 

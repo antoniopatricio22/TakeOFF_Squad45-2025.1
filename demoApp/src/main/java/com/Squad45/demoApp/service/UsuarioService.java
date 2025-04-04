@@ -67,7 +67,7 @@ public class UsuarioService implements UserDetailsService {
         
         usuario.setEmail(updatedUsuario.getEmail());
         usuario.setNome(updatedUsuario.getNome());
-        // Note: CPF não é atualizado
+        
 
         if (updatedUsuario.getPassword() != null) {
             usuario.setPassword(passwordEncoder.encode(updatedUsuario.getPassword()));

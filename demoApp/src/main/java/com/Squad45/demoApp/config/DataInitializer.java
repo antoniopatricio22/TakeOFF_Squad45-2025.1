@@ -21,9 +21,9 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Verifica se já existe algum administrador
+        // Remover
         if (usuarioRepository.count() == 0) {
-            // Cria um administrador padrão
+            
             Administrador admin = new Administrador();
             admin.setEmail("admin@exemplo.com");
             admin.setPassword(passwordEncoder.encode("admin123"));

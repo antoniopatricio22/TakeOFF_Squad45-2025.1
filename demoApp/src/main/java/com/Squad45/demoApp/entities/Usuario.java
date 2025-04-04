@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "usuarios") 
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
 
@@ -45,7 +46,7 @@ public abstract class Usuario {
         this.lastLogin = LocalDateTime.now();
     }
 
-    // Getters e setters
+    
     public Long getId() {
         return id;
     }
@@ -82,9 +83,6 @@ public abstract class Usuario {
         return cpf;
     }
     
-    // Constructor-only setting of CPF
-    // No setter for CPF since it shouldn't be changeable
-
     public Role getRole() {
         return role;
     }

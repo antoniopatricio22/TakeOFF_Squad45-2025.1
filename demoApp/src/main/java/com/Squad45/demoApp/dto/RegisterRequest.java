@@ -24,7 +24,7 @@ public class RegisterRequest {
     
     private String carteiraBlockchain;
     
-    // Getters and setters
+    
     public String getEmail() {
         return email;
     }
