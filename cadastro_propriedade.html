@@ -7,7 +7,7 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilo personalizado -->
-     <link rel="stylesheet" href="cadastro_propriedade.css">
+     <link rel="stylesheet" href="./css/cadastro_propriedade.css">
      <link rel="preload" href="BancoDoBrasilTextos-Regular.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
@@ -79,92 +79,9 @@
 
     <!-- Bootstrap 5 JS e Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('cadastroPropriedadeForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            handleCadastroPropriedade();
-        });
-
-        async function handleCadastroPropriedade() {
-            // Verifica se há um token de autenticação
-            const token = localStorage.getItem('authToken');
-            
-            if (!token) {
-                showModal('Erro', 'Você precisa estar logado para cadastrar uma propriedade. Faça login primeiro.');
-                setTimeout(() => {
-                    window.location.href = "index.html";
-                }, 2000);
-                return;
-            }
-            
-            const nome = document.getElementById('nomePropriedade').value;
-            const logradouro = document.getElementById('logradouro').value;
-            const numero = document.getElementById('numero').value;
-            const cidade = document.getElementById('cidade').value;
-            const estado = document.getElementById('estado').value;
-            const pais = document.getElementById('pais').value;
-            const areaPreservada = document.getElementById('areaPreservada').value;
-            const producaoCarbono = document.getElementById('producaoCarbono').value;
-
-            const dadosPropriedade = {
-                nome: nome,
-                endereco: {
-                    logradouro: logradouro,
-                    numero: numero,
-                    cidade: cidade,
-                    estado: estado,
-                    pais: pais
-                },
-                areaPreservada: parseFloat(areaPreservada),
-                producaoCarbono: parseFloat(producaoCarbono)
-            };
-
-            try {
-                const response = await fetch('https://takeoff-squad45-2025-1.onrender.com/propriedades', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(dadosPropriedade)
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    showModal('Sucesso', 'Propriedade cadastrada com sucesso!');
-                    
-                    // Redirecionar para a página inicial
-                    setTimeout(() => {
-                        window.location.href = "index.html";
-                    }, 2000);
-                } else {
-                    showModal('Erro', result.error || 'Erro ao cadastrar propriedade');
-                }
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                showModal('Erro', 'Erro ao conectar com o servidor. Verifique sua conexão.');
-            }
-        }
-        
-        function showModal(title, message) {
-            document.getElementById('messageModalLabel').textContent = title;
-            document.getElementById('messageModalBody').textContent = message;
-            
-            const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
-            messageModal.show();
-        }
-        
-        // Verificar se o usuário veio do cadastro de proprietário
-        document.addEventListener('DOMContentLoaded', function() {
-            const proprietarioEmail = sessionStorage.getItem('proprietarioEmail');
-            if (proprietarioEmail) {
-                showModal('Bem-vindo', `Agora cadastre os dados da sua propriedade, ${proprietarioEmail}`);
-                
-                // Limpar dados temporários
-                sessionStorage.removeItem('proprietarioEmail');
-            }
-        });
-    </script>
+    <!-- Scripts personalizados -->
+    <script src="./scripts/config.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/propriedade.js"></script>
 </body>
 </html>

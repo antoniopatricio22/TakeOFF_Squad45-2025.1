@@ -7,7 +7,7 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilo personalizado -->
-     <link rel="stylesheet" href="cadastro_proprietario.css">
+     <link rel="stylesheet" href="./css/cadastro_proprietario.css">
      <link rel="preload" href="BancoDoBrasilTextos-Regular.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
@@ -73,71 +73,9 @@
 
     <!-- Bootstrap 5 JS e Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('cadastroProprietarioForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            handleCadastroProprietario();
-        });
-
-        async function handleCadastroProprietario() {
-            const nome = document.getElementById('nome').value;
-            const cpf = document.getElementById('cpf').value;
-            const carteiraBlockchain = document.getElementById('carteiraBlockchain').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('senha').value;
-            const confirmPassword = document.getElementById('confirmSenha').value;
-
-            if (password !== confirmPassword) {
-                showModal('Erro', 'As senhas não coincidem!');
-                return;
-            }
-
-            const dadosProprietario = {
-                nome: nome,
-                cpf: cpf,
-                carteiraBlockchain: carteiraBlockchain,
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword
-            };
-
-            try {
-                const response = await fetch('https://takeoff-squad45-2025-1.onrender.com/registro/proprietario', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dadosProprietario)
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    showModal('Sucesso', 'Proprietário registrado com sucesso! Prosseguindo para o cadastro da propriedade...');
-                    
-                    // Salvar dados temporariamente para o próximo passo
-                    sessionStorage.setItem('proprietarioEmail', email);
-                    
-                    // Redirecionar para o cadastro da propriedade
-                    setTimeout(() => {
-                        window.location.href = "cadastro_propriedade.html";
-                    }, 2000);
-                } else {
-                    showModal('Erro', result.error || 'Erro ao registrar proprietário');
-                }
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                showModal('Erro', 'Erro ao conectar com o servidor. Verifique sua conexão.');
-            }
-        }
-        
-        function showModal(title, message) {
-            document.getElementById('messageModalLabel').textContent = title;
-            document.getElementById('messageModalBody').textContent = message;
-            
-            const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
-            messageModal.show();
-        }
-    </script>
+    <!-- Scripts personalizados -->
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/proprietario.js"></script>
 </body>
 </html>
