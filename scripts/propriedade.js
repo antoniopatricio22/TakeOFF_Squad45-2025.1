@@ -19,8 +19,9 @@ async function handleCadastroPropriedade() {
     const cidade = document.getElementById('cidade').value;
     const estado = document.getElementById('estado').value;
     const pais = document.getElementById('pais').value;
-    const areaPreservada = document.getElementById('areaPreservada').value;
-    const idCAR = document.getElementById('idCAR').value; // Adicionar idCAR
+    const areaInput = document.getElementById('areaPreservada').value;
+    const areaPreservada = parseFloat(areaInput.replace(',', '.'));
+    const idCAR = document.getElementById('idCAR').value; 
 
     const dadosPropriedade = {
         nome: nome,
@@ -29,8 +30,8 @@ async function handleCadastroPropriedade() {
         cidade: cidade,
         estado: estado,
         pais: pais,
-        areaPreservada: parseFloat(areaPreservada),
-        idCAR: idCAR // Enviar idCAR
+        areaPreservada: areaPreservada,
+        idCAR: idCAR 
     };
 
     try {

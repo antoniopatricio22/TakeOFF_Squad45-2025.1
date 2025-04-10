@@ -53,7 +53,10 @@
                 </div>
                 <div class="mb-3">
                     <label for="areaPreservada" class="form-label">Área preservada (m²) *</label>
-                    <input type="number" class="form-control" id="areaPreservada" placeholder="Área preservada (m²) *" required>
+                    <input type="text" class="form-control" id="areaPreservada" 
+                           placeholder="Ex: 1250.75" required
+                           pattern="^\d+([.,]\d{1,2})?$"
+                           title="Digite um número com até 2 casas decimais (use ponto ou vírgula)">
                 </div>
                 <div class="mb-3">
                     <label for="idCAR" class="form-label">Identificador CAR (idCAR) *</label>
@@ -96,6 +99,7 @@
     <script src="./scripts/config.js"></script>
     <script src="scripts/auth.js"></script>
     <script src="scripts/propriedade.js"></script>
+    <script src="./scripts/fakeDataGenerator.js"></script>
 </body>
 </html>
 ``` 
