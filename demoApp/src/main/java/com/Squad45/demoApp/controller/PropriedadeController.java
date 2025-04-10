@@ -2,7 +2,7 @@ package com.Squad45.demoApp.controller;
 
 import com.Squad45.demoApp.dto.PropriedadeDTO;
 import com.Squad45.demoApp.dto.PropriedadeResponseDTO;
-import com.Squad45.demoApp.dto.ValidacaoPropriedadeRequest;
+import com.Squad45.demoApp.dto.ValidacaoPropriedadeRequestDTO;
 import com.Squad45.demoApp.entities.*;
 import com.Squad45.demoApp.service.JwtTokenService;
 import com.Squad45.demoApp.service.PropriedadeService;
@@ -95,7 +95,7 @@ public class PropriedadeController {
 
     @PutMapping("/validar")
     public ResponseEntity<StandardResponse<?>> validarPropriedade(
-            @RequestBody @Valid ValidacaoPropriedadeRequest request,
+            @RequestBody @Valid ValidacaoPropriedadeRequestDTO request,
             @RequestHeader("Authorization") String token) {
 
         try {

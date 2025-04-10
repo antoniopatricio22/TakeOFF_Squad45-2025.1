@@ -4,7 +4,7 @@ import com.Squad45.demoApp.entities.StatusPropriedade;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public class ValidacaoPropriedadeRequest {
+public class ValidacaoPropriedadeRequestDTO {
 
     @NotNull(message = "O ID da propriedade é obrigatório")
     private Long id;

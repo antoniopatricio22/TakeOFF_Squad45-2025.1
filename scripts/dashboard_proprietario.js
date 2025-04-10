@@ -93,9 +93,10 @@ function exibirPropriedades(propriedades) {
 
         row.innerHTML = `
             <td>${prop.nome}</td>
-            <td>${prop.logradouro}, ${prop.numero}, ${prop.cidade}-${prop.estado}</td>
+            
             <td>${prop.areaPreservada} m²</td>
             <td>${prop.producaoCarbono ? prop.producaoCarbono + ' ton' : 'N/A'}</td>
+            <td>${prop.mensagemStatus}</td>
             <td class="${statusClass}">${prop.status}</td>
         `;
         

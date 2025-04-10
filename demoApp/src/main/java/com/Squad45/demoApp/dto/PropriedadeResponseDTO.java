@@ -17,6 +17,7 @@ public class PropriedadeResponseDTO {
     private String mensagemStatus;
     private LocalDateTime dataCadastro;
     private ProprietarioResumoDTO proprietario;
+    private String idCAR;
 
     
     public static class ProprietarioResumoDTO {
@@ -170,5 +171,12 @@ public class PropriedadeResponseDTO {
         return proprietario;
     }
 
+    public String getIdCAR() {
+        return idCAR;
+    }
+
+    public void setIdCAR(String idCAR) {
+        this.idCAR = idCAR;
+    }
     
 }

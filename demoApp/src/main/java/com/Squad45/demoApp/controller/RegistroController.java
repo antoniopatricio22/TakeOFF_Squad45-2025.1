@@ -1,6 +1,6 @@
 package com.Squad45.demoApp.controller;
 
-import com.Squad45.demoApp.dto.RegisterRequest;
+import com.Squad45.demoApp.dto.RegisterRequestDTO;
 import com.Squad45.demoApp.dto.UsuarioDTO;
 import com.Squad45.demoApp.entities.*;
 import com.Squad45.demoApp.service.JwtTokenService;
@@ -24,7 +24,7 @@ public class RegistroController {
     private JwtTokenService jwtTokenService;
 
     @PostMapping("/proprietario")
-    public ResponseEntity<StandardResponse<?>> registrarProprietario(@Valid @RequestBody RegisterRequest dadosRegistro) {
+    public ResponseEntity<StandardResponse<?>> registrarProprietario(@Valid @RequestBody RegisterRequestDTO dadosRegistro) {
         try {
             // Validar se as senhas são iguais
             if (!dadosRegistro.getPassword().equals(dadosRegistro.getConfirmPassword())) {
@@ -69,7 +69,7 @@ public class RegistroController {
     }
 
     @PostMapping("/administrador")
-    public ResponseEntity<StandardResponse<?>> registrarAdmin(@Valid @RequestBody RegisterRequest dadosRegistro, 
+    public ResponseEntity<StandardResponse<?>> registrarAdmin(@Valid @RequestBody RegisterRequestDTO dadosRegistro, 
                                                             @RequestHeader("Authorization") String token) {
         try {
             // Verificar se o usuário atual é administrador

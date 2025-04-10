@@ -71,6 +71,7 @@ public class PropriedadeService {
         dto.setStatus(propriedade.getStatus());
         dto.setMensagemStatus(propriedade.getMensagemStatus());
         dto.setDataCadastro(propriedade.getDataCadastro());
+        dto.setIdCAR(propriedade.getIdCAR());
 
         // Resumo do proprietário
         Proprietario proprietario = propriedade.getProprietario();

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
-public class RegisterRequest {
+public class RegisterRequestDTO {
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email deve ser válido")
     private String email;
