@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "propriedades")
+@Table(name = "propriedades", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id", "nome", "idCAR"}),
+})
 public class Propriedade {
 
     @Id
@@ -16,6 +19,7 @@ public class Propriedade {
     private Long id;
 
     @NotBlank(message = "Nome da propriedade é obrigatório")
+    @Column(unique = true)
     private String nome;
 
     @NotBlank(message = "Logradouro é obrigatório")
@@ -37,12 +41,17 @@ public class Propriedade {
     @Positive(message = "Área preservada deve ser positiva")
     private Double areaPreservada; // em m²
 
-    @NotNull(message = "Produção de carbono é obrigatória")
+    @Pattern(regexp = "[A-Z]{2}-\\d{7}-([A-Za-z0-9]{4}\\.){7}[A-Za-z0-9]{4}",
+            message = "Formato inválido para o idCAR")
+    @NotBlank(message = "idCAR é obrigatório")
+    @Column(unique = true)
+    private String idCAR;
+
     @Positive(message = "Produção de carbono deve ser positiva")
-    private Double producaoCarbono; // em toneladas
+    private Double producaoCarbono; // em toneladas (inserido pelo administrador)
 
     @Enumerated(EnumType.STRING)
-    private StatusPropriedade status = StatusPropriedade.PENDENTE;
+    private StatusPropriedade status;
 
     private String mensagemStatus = "Aguardando revisão"; // Valor padrão
 
@@ -57,7 +66,7 @@ public class Propriedade {
         this.dataCadastro = LocalDateTime.now();
     }
 
-    
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -120,6 +129,14 @@ public class Propriedade {
 
     public void setAreaPreservada(Double areaPreservada) {
         this.areaPreservada = areaPreservada;
+    }
+
+    public String getIdCAR() {
+        return idCAR;
+    }
+
+    public void setIdCAR(String idCAR) {
+        this.idCAR = idCAR;
     }
 
     public Double getProducaoCarbono() {

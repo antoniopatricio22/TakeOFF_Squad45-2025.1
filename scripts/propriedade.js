@@ -20,7 +20,7 @@ async function handleCadastroPropriedade() {
     const estado = document.getElementById('estado').value;
     const pais = document.getElementById('pais').value;
     const areaPreservada = document.getElementById('areaPreservada').value;
-    const producaoCarbono = document.getElementById('producaoCarbono').value;
+    const idCAR = document.getElementById('idCAR').value; // Adicionar idCAR
 
     const dadosPropriedade = {
         nome: nome,
@@ -30,7 +30,7 @@ async function handleCadastroPropriedade() {
         estado: estado,
         pais: pais,
         areaPreservada: parseFloat(areaPreservada),
-        producaoCarbono: parseFloat(producaoCarbono)
+        idCAR: idCAR // Enviar idCAR
     };
 
     try {
@@ -137,30 +137,32 @@ function exibirTodasPropriedades(propriedades) {
 }
 
 // Validar uma propriedade (apenas admin)
-async function validarPropriedade(id, status) {
+async function validarPropriedade(id, status, mensagem) {
     const token = localStorage.getItem('authToken');
-    const mensagem = prompt(status === 'APROVADA' ? 
-                           'Adicione uma mensagem para aprovação (opcional):' : 
-                           'Informe o motivo da rejeição:');
-    
+
     try {
-        const response = await fetch(API_ROUTES.PROPRIEDADES.VALIDAR(id), {
+        const response = await fetch(`${API_ROUTES.PROPRIEDADES.VALIDAR}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({
+                id: id,
+                status: status,
+                mensagem: mensagem
+            })
         });
-        
+
         const result = await response.json();
-        
-        if (result.status === 'success') {
-            showModal('Sucesso', `Propriedade ${status === 'APROVADA' ? 'aprovada' : 'rejeitada'} com sucesso!`);
+
+        if (result.success) {
+            showModal('Sucesso', `Propriedade ${status === 'APROVADO' ? 'aprovada' : 'rejeitada'} com sucesso!`);
             setTimeout(() => {
                 carregarTodasPropriedades();
             }, 2000);
         } else {
-            showModal('Erro', result.error || 'Erro ao validar propriedade');
+            showModal('Erro', result.message || 'Erro ao validar propriedade');
         }
     } catch (error) {
         console.error('Erro na requisição:', error);

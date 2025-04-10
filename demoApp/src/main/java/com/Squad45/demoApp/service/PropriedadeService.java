@@ -25,7 +25,7 @@ public class PropriedadeService {
         propriedade.setEstado(propriedadeDTO.getEstado());
         propriedade.setPais(propriedadeDTO.getPais());
         propriedade.setAreaPreservada(propriedadeDTO.getAreaPreservada());
-        propriedade.setProducaoCarbono(propriedadeDTO.getProducaoCarbono());
+        propriedade.setIdCAR(propriedadeDTO.getIdCAR());
         propriedade.setProprietario(proprietario);
         propriedade.setStatus(StatusPropriedade.PENDENTE);
 
@@ -45,22 +45,13 @@ public class PropriedadeService {
                 .collect(Collectors.toList());
     }
 
-    public PropriedadeResponseDTO validarPropriedade(Long id, StatusPropriedade status, String mensagem) {
+    public PropriedadeResponseDTO validarPropriedade(Long id, StatusPropriedade status, String mensagem, Double producaoCarbono) {
         Propriedade propriedade = propriedadeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Propriedade não encontrada"));
 
         propriedade.setStatus(status);
-
-        // Atualiza a mensagem apenas se for fornecida ??? confirmar, falta regra de
-        // negocio.
-        if (mensagem != null && !mensagem.trim().isEmpty()) {
-            propriedade.setMensagemStatus(mensagem);
-        } else if (StatusPropriedade.APROVADO.equals(status)) {
-            propriedade.setMensagemStatus("Propriedade aprovada");
-        } else if (StatusPropriedade.RECUSADO.equals(status)) {
-            propriedade.setMensagemStatus("Propriedade recusada");
-        }
-        // Se não houver mensagem e for PENDENTE, mantém o valor padrão????
+        propriedade.setMensagemStatus(mensagem);
+        propriedade.setProducaoCarbono(producaoCarbono);
 
         Propriedade updatedPropriedade = propriedadeRepository.save(propriedade);
         return convertToResponseDTO(updatedPropriedade);

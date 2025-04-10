@@ -65,20 +65,19 @@ function carregarPropriedades() {
 function exibirPropriedades(propriedades) {
     const listaElement = document.getElementById('listaPropriedades');
     const semPropriedadesElement = document.getElementById('semPropriedades');
-    
+
     if (!propriedades || propriedades.length === 0) {
         listaElement.innerHTML = '';
         semPropriedadesElement.classList.remove('d-none');
         return;
     }
-    
+
     semPropriedadesElement.classList.add('d-none');
     listaElement.innerHTML = '';
-    
+
     propriedades.forEach(prop => {
         const row = document.createElement('tr');
         
-        // Determinar a classe de status para estilização
         let statusClass = '';
         switch (prop.status) {
             case 'PENDENTE':
@@ -91,12 +90,12 @@ function exibirPropriedades(propriedades) {
                 statusClass = 'text-danger';
                 break;
         }
-        
+
         row.innerHTML = `
             <td>${prop.nome}</td>
-            <td>${prop.cidade}, ${prop.estado}, ${prop.pais}</td>
+            <td>${prop.logradouro}, ${prop.numero}, ${prop.cidade}-${prop.estado}</td>
             <td>${prop.areaPreservada} m²</td>
-            <td>${prop.producaoCarbono} ton</td>
+            <td>${prop.producaoCarbono ? prop.producaoCarbono + ' ton' : 'N/A'}</td>
             <td class="${statusClass}">${prop.status}</td>
         `;
         

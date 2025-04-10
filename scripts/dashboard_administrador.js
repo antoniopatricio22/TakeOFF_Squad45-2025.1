@@ -50,9 +50,6 @@ function carregarPropriedades() {
     const filtroStatus = document.getElementById('filtroStatus').value;
     const filtroProprietario = document.getElementById('filtroProprietario').value;
     
-    //TODO: Aqui poderia ser implementada a lógica para incluir os filtros na requisição
-    
-    
     fetch(API_ROUTES.PROPRIEDADES.BASE, {
         method: 'GET',
         headers: {
@@ -63,7 +60,6 @@ function carregarPropriedades() {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            // TODO: Filtrar os dados no lado do cliente
             let propriedades = data.data;
             
             if (filtroStatus) {
@@ -72,8 +68,8 @@ function carregarPropriedades() {
             
             if (filtroProprietario) {
                 propriedades = propriedades.filter(p => 
-                    p.proprietario && p.proprietario.nome && 
-                    p.proprietario.nome.toLowerCase().includes(filtroProprietario.toLowerCase())
+                    p.proprietario && p.proprietario.carteiraBlockchain && 
+                    p.proprietario.carteiraBlockchain.toLowerCase().includes(filtroProprietario.toLowerCase())
                 );
             }
             
@@ -88,24 +84,23 @@ function carregarPropriedades() {
     });
 }
 
-// Função para exibir as propriedades na tabela
+// Função para exibir propriedades na tabela (com event listeners atualizados)
 function exibirPropriedades(propriedades) {
     const listaElement = document.getElementById('listaPropriedades');
     const semPropriedadesElement = document.getElementById('semPropriedades');
-    
+
     if (!propriedades || propriedades.length === 0) {
         listaElement.innerHTML = '';
         semPropriedadesElement.classList.remove('d-none');
         return;
     }
-    
+
     semPropriedadesElement.classList.add('d-none');
     listaElement.innerHTML = '';
-    
+
     propriedades.forEach(prop => {
         const row = document.createElement('tr');
-        
-        // Determinar a classe de status para estilização
+
         let statusClass = '';
         switch (prop.status) {
             case 'PENDENTE':
@@ -118,41 +113,65 @@ function exibirPropriedades(propriedades) {
                 statusClass = 'text-danger';
                 break;
         }
-        
+
         row.innerHTML = `
+            <td>${prop.idCAR || 'N/A'}</td>
             <td>${prop.nome}</td>
-            <td>${prop.proprietario ? prop.proprietario.nome : 'N/A'}</td>
-            <td>${prop.cidade}, ${prop.estado}, ${prop.pais}</td>
-            <td>${prop.areaPreservada} m²</td>
-            <td>${prop.producaoCarbono} ton</td>
+            <td>${prop.producaoCarbono ? prop.producaoCarbono + ' ton' : 'N/A'}</td>
             <td class="${statusClass}">${prop.status}</td>
             <td>
+                <button class="btn btn-sm btn-outline-secondary btn-detalhes" data-id="${prop.id}">Detalhes</button>
                 ${prop.status === 'PENDENTE' ? 
                     `<button class="btn btn-sm btn-primary btn-validar" data-id="${prop.id}">Validar</button>` : 
-                    `<button class="btn btn-sm btn-outline-secondary btn-detalhes" data-id="${prop.id}">Detalhes</button>`
-                }
+                    ''}
             </td>
         `;
-        
+
         listaElement.appendChild(row);
     });
-    
-    // Adicionar eventos aos botões de validação
+
+    // Armazenar os dados para uso nos detalhes
+    localStorage.setItem('propriedadesData', JSON.stringify(propriedades));
+
+    // Configurar evento para botões de validação
     document.querySelectorAll('.btn-validar').forEach(btn => {
         btn.addEventListener('click', function() {
             const propriedadeId = this.getAttribute('data-id');
             abrirModalValidacao(propriedadeId);
         });
     });
-    
-    // Adicionar eventos aos botões de detalhes (caso implementado no futuro)
+
+    // Configurar evento para botões de detalhes (usando dados locais)
     document.querySelectorAll('.btn-detalhes').forEach(btn => {
         btn.addEventListener('click', function() {
             const propriedadeId = this.getAttribute('data-id');
-            // Implementação futura - exibir detalhes da propriedade
-            mostrarMensagem('Detalhes', `Detalhes da propriedade ID: ${propriedadeId}`);
+            const propriedades = JSON.parse(localStorage.getItem('propriedadesData') || '[]');
+            const propriedade = propriedades.find(p => p.id == propriedadeId);
+            
+            if (propriedade) {
+                exibirDetalhesPropriedade(propriedade);
+            } else {
+                mostrarMensagem('Erro', 'Detalhes da propriedade não encontrados');
+            }
         });
     });
+}
+
+// Função para exibir detalhes da propriedade (usando dados já carregados)
+function exibirDetalhesPropriedade(propriedade) {
+    mostrarMensagem(
+        'Detalhes da Propriedade',
+        `
+        <p><strong>Nome:</strong> ${propriedade.nome}</p>
+        <p><strong>ID CAR:</strong> ${propriedade.idCAR || 'N/A'}</p>
+        <p><strong>Localização:</strong> ${propriedade.logradouro}, ${propriedade.numero}, ${propriedade.cidade}-${propriedade.estado}</p>
+        <p><strong>Área Preservada:</strong> ${propriedade.areaPreservada} m²</p>
+        <p><strong>Produção de Carbono:</strong> ${propriedade.producaoCarbono ? propriedade.producaoCarbono + ' ton' : 'N/A'}</p>
+        <p><strong>Status:</strong> ${propriedade.status}</p>
+        <p><strong>Mensagem:</strong> ${propriedade.mensagemStatus || 'N/A'}</p>
+        <p><strong>Proprietário (Carteira):</strong> ${propriedade.proprietario?.carteiraBlockchain || 'N/A'}</p>
+        `
+    );
 }
 
 // Função para abrir o modal de validação de propriedade
@@ -171,24 +190,29 @@ function validarPropriedade() {
     const propriedadeId = document.getElementById('propriedadeId').value;
     const status = document.getElementById('statusPropriedade').value;
     const mensagem = document.getElementById('mensagemValidacao').value;
-    
-    fetch(API_ROUTES.PROPRIEDADES.VALIDAR(propriedadeId), {
+    const producaoCarbono = document.getElementById('producaoCarbono').value;
+
+    fetch(`${API_ROUTES.PROPRIEDADES.VALIDAR}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify({
+            id: propriedadeId,
+            status: status,
+            mensagem: mensagem,
+            producaoCarbono: parseFloat(producaoCarbono)
+        })
     })
     .then(response => response.json())
     .then(data => {
-        // Fechar o modal de validação
         const modalElement = document.getElementById('validarPropriedadeModal');
         const modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
-        
+
         if (data.success) {
             mostrarMensagem('Sucesso', 'Propriedade validada com sucesso!');
-            // Recarregar a lista de propriedades
             carregarPropriedades();
         } else {
             mostrarMensagem('Erro', data.message || 'Erro ao validar propriedade');
@@ -206,8 +230,9 @@ function mostrarMensagem(titulo, mensagem) {
     const modalBody = document.getElementById('messageModalBody');
     
     modalTitle.textContent = titulo;
-    modalBody.textContent = mensagem;
+    modalBody.innerHTML = mensagem;
     
     const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
     messageModal.show();
 }
+

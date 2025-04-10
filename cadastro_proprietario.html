@@ -31,7 +31,8 @@
                     <input type="text" class="form-control" id="cpf" placeholder="CPF *" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="carteiraBlockchain" placeholder="Número da carteira *" required>
+                    <input type="text" class="form-control" id="carteiraBlockchain" placeholder="Endereço da carteira MetaMask (ex: 0x123...abc) *" 
+                           required pattern="^0x[a-fA-F0-9]{40}$" title="Formato: 0x1234567890abcdef1234567890abcdef12345678">
                 </div>
                 <div class="mb-3">
                     <input type="email" class="form-control" id="email" placeholder="E-mail *" required>

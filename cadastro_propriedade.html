@@ -24,32 +24,45 @@
 
             <!-- Formulário de Cadastro da Propriedade -->
             <form id="cadastroPropriedadeForm">
+                <div id="formErrorMessage" class="alert alert-danger d-none" role="alert">
+                    <!-- Mensagem de erro será inserida aqui -->
+                </div>
                 <div class="mb-3">
+                    <label for="nomePropriedade" class="form-label">Nome da propriedade *</label>
                     <input type="text" class="form-control" id="nomePropriedade" placeholder="Nome da propriedade *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="logradouro" class="form-label">Logradouro *</label>
                     <input type="text" class="form-control" id="logradouro" placeholder="Logradouro *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="numero" class="form-label">Número *</label>
                     <input type="text" class="form-control" id="numero" placeholder="Número *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="cidade" class="form-label">Cidade *</label>
                     <input type="text" class="form-control" id="cidade" placeholder="Cidade *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="estado" class="form-label">Estado *</label>
                     <input type="text" class="form-control" id="estado" placeholder="Estado *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="pais" class="form-label">País *</label>
                     <input type="text" class="form-control" id="pais" placeholder="País *" required>
                 </div>
                 <div class="mb-3">
+                    <label for="areaPreservada" class="form-label">Área preservada (m²) *</label>
                     <input type="number" class="form-control" id="areaPreservada" placeholder="Área preservada (m²) *" required>
                 </div>
                 <div class="mb-3">
-                    <input type="number" class="form-control" id="producaoCarbono" placeholder="Produção de carbono (toneladas) *" required>
+                    <label for="idCAR" class="form-label">Identificador CAR (idCAR) *</label>
+                    <input type="text" class="form-control" id="idCAR" placeholder="UF-9999999-XXXX.XXXX.XXXX.XXXX.XXXX.XXXX.XXXX.XXXX" required>
                 </div>
-
                 <button type="submit" class="btn btn-cadastrar">Cadastrar</button>
+                <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
             </form>
         </div>
 
@@ -85,3 +98,4 @@
     <script src="scripts/propriedade.js"></script>
 </body>
 </html>
+``` 

@@ -2,6 +2,7 @@ package com.Squad45.demoApp.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
 public class PropriedadeDTO {
@@ -28,11 +29,15 @@ public class PropriedadeDTO {
     @Positive
     private Double areaPreservada;
 
-    @NotNull
+    
     @Positive
     private Double producaoCarbono;
 
-    
+    @NotBlank
+    @Pattern(regexp = "[A-Z]{2}-\\d{7}-([A-Za-z0-9]{4}\\.){7}[A-Za-z0-9]{4}",
+            message = "Formato inválido para o idCAR")
+    private String idCAR;
+
     public String getNome() {
         return nome;
     }
@@ -95,5 +100,13 @@ public class PropriedadeDTO {
 
     public void setProducaoCarbono(Double producaoCarbono) {
         this.producaoCarbono = producaoCarbono;
+    }
+
+    public String getIdCAR() {
+        return idCAR;
+    }
+
+    public void setIdCAR(String idCAR) {
+        this.idCAR = idCAR;
     }
 }

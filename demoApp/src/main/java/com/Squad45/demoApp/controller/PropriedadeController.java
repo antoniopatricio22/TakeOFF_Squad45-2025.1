@@ -2,10 +2,14 @@ package com.Squad45.demoApp.controller;
 
 import com.Squad45.demoApp.dto.PropriedadeDTO;
 import com.Squad45.demoApp.dto.PropriedadeResponseDTO;
+import com.Squad45.demoApp.dto.ValidacaoPropriedadeRequest;
 import com.Squad45.demoApp.entities.*;
 import com.Squad45.demoApp.service.JwtTokenService;
 import com.Squad45.demoApp.service.PropriedadeService;
 import com.Squad45.demoApp.service.UsuarioService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +32,7 @@ public class PropriedadeController {
 
     @PostMapping
     public ResponseEntity<StandardResponse<?>> cadastrarPropriedade(
-            @RequestBody PropriedadeDTO propriedadeDTO,
+            @RequestBody @Valid PropriedadeDTO propriedadeDTO,
             @RequestHeader("Authorization") String token) {
 
         try {
@@ -89,11 +93,9 @@ public class PropriedadeController {
         }
     }
 
-    @PutMapping("/{id}/validar") //Só pra teste, Regras de negocio e tecnologia a usar ainda não foi definida.
+    @PutMapping("/validar")
     public ResponseEntity<StandardResponse<?>> validarPropriedade(
-            @PathVariable Long id,
-            @RequestParam StatusPropriedade status,
-            @RequestParam(required = false) String mensagem,
+            @RequestBody @Valid ValidacaoPropriedadeRequest request,
             @RequestHeader("Authorization") String token) {
 
         try {
@@ -103,11 +105,11 @@ public class PropriedadeController {
 
             if (usuario == null || !Role.ADMINISTRADOR.equals(usuario.getRole())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(StandardResponse.error("Acesso negado",
-                                "Apenas administradores podem validar propriedades"));
+                        .body(StandardResponse.error("Acesso negado", "Apenas administradores podem validar propriedades"));
             }
 
-            PropriedadeResponseDTO propriedade = propriedadeService.validarPropriedade(id, status, mensagem);
+            PropriedadeResponseDTO propriedade = propriedadeService.validarPropriedade(
+                    request.getId(), request.getStatus(), request.getMensagem(), request.getProducaoCarbono());
 
             return ResponseEntity.ok(StandardResponse.success("Propriedade validada com sucesso", propriedade));
 

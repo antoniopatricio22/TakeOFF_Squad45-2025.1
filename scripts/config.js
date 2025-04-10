@@ -2,6 +2,7 @@
 
 // URL base da API
 const API_BASE_URL = 'https://takeoff-squad45-2025-1.onrender.com';
+//const API_BASE_URL = 'http://localhost:8080'; // URL base da API local
 
 // Rotas específicas
 const API_ROUTES = {
@@ -12,7 +13,7 @@ const API_ROUTES = {
     },
     PROPRIEDADES: {
         BASE: `${API_BASE_URL}/propriedades`,
-        VALIDAR: (id) => `${API_BASE_URL}/propriedades/${id}/validar` //TODO: reajustar
+        VALIDAR: `${API_BASE_URL}/propriedades/validar`
     },
     
 };
@@ -20,4 +21,3 @@ const API_ROUTES = {
 // Tempo de expiração do token em milissegundos (exemplo: 4 horas)
 const TOKEN_EXPIRATION = 4 * 60 * 60 * 1000; //necessario?
 
-// Outras configurações globais podem ser adicionadas aqui

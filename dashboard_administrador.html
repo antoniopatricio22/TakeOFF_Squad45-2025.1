@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="./css/dashboard.css">
     <link rel="preload" href="BancoDoBrasilTextos-Regular.woff2" as="font" type="font/woff2" crossorigin>
 </head>
+
 <body>
     <header>
         <div class="header-container">
@@ -34,12 +36,13 @@
                         <select class="form-select" id="filtroStatus">
                             <option value="">Todos os status</option>
                             <option value="PENDENTE">Pendente</option>
-                            <option value="APROVADA">Aprovada</option>
-                            <option value="REJEITADA">Rejeitada</option>
+                            <option value="APROVADO">Aprovado</option>
+                            <option value="RECUSADO">Recusado</option>
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="filtroProprietario" placeholder="Filtrar por proprietário">
+                        <input type="text" class="form-control" id="filtroProprietario"
+                            placeholder="Filtrar por proprietário">
                     </div>
                     <div class="col-md-4">
                         <button id="btnFiltrar" class="btn btn-primary w-100">Filtrar</button>
@@ -52,10 +55,8 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nome</th>
-                            <th>Proprietário</th>
-                            <th>Localização</th>
-                            <th>Área Preservada</th>
                             <th>Produção de Carbono</th>
                             <th>Status</th>
                             <th>Ações</th>
@@ -75,7 +76,8 @@
     </div>
 
     <!-- Modal para validar propriedade -->
-    <div class="modal fade" id="validarPropriedadeModal" tabindex="-1" aria-labelledby="validarPropriedadeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="validarPropriedadeModal" tabindex="-1" aria-labelledby="validarPropriedadeModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,9 +90,14 @@
                         <div class="mb-3">
                             <label for="statusPropriedade" class="form-label">Status</label>
                             <select class="form-select" id="statusPropriedade" required>
-                                <option value="APROVADA">Aprovar</option>
-                                <option value="REJEITADA">Rejeitar</option>
+                                <option value="APROVADO">Aprovar</option>
+                                <option value="RECUSADO">Rejeitar</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producaoCarbono" class="form-label">Produção de Carbono (ton)</label>
+                            <input type="number" class="form-control" id="producaoCarbono" 
+                                   step="0.01" min="0" placeholder="Digite a produção de carbono">
                         </div>
                         <div class="mb-3">
                             <label for="mensagemValidacao" class="form-label">Mensagem (opcional)</label>
@@ -131,4 +138,5 @@
     <script src="./scripts/auth.js"></script>
     <script src="./scripts/dashboard_administrador.js"></script>
 </body>
+
 </html>
