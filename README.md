@@ -17,7 +17,13 @@ remunerado pela manutenção da reserva ambiental. A moeda digital será gerada 
 carbono sequestrado pela área de reserva. 
 O Documento do desafio completo se emcontra neste link: [Formalização de demanda - Tokenização de Reservas Ambientais (PDF)](./Docs/Fomalização%20de%20demanda%20-%20Tokenização%20de%20Reservas%20Ambientais.pdf)
 
+
+---
+
 # instruções para Implementação
+
+
+---
 
 
 
