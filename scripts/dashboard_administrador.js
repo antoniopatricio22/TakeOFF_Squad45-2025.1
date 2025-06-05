@@ -213,7 +213,11 @@ function validarPropriedade() {
 
         if (data.success) {
             mostrarMensagem('Sucesso', 'Propriedade validada com sucesso!');
-            carregarPropriedades();
+            const messageModalEl = document.getElementById('messageModal');
+            messageModalEl.addEventListener('hidden.bs.modal', function handler() {
+                carregarPropriedades();
+                messageModalEl.removeEventListener('hidden.bs.modal', handler);
+            });
         } else {
             mostrarMensagem('Erro', data.message || 'Erro ao validar propriedade');
         }

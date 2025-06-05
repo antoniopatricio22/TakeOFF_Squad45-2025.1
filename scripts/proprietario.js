@@ -35,14 +35,11 @@ async function handleCadastroProprietario() {
         const result = await response.json();
         
         if (result.status === 'success') {
-            showModal('Sucesso', 'Proprietário registrado com sucesso! Prosseguindo para o cadastro da propriedade...');
+            showModal('Sucesso', 'Proprietário registrado com sucesso! Faça login para continuar.');
             
-            // Salvar dados temporariamente para o próximo passo
-            sessionStorage.setItem('proprietarioEmail', email);
-            
-            // Redirecionar para o cadastro da propriedade
+            // Redirecionar para o login
             setTimeout(() => {
-                window.location.href = "cadastro_propriedade.html";
+                window.location.href = "index.html";
             }, 2000);
         } else {
             showModal('Erro', result.error || 'Erro ao registrar proprietário');
