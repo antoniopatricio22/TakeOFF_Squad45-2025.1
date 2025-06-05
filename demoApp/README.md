@@ -296,8 +296,6 @@ Demais Erros Equivalentes aos de Registro de Proprietário
 
 ---
 
-Vou ajustar os exemplos de requests e responses para cada rota do `PropriedadeController` conforme suas solicitações, mantendo a estrutura atual do sistema e as modificações pedidas (dados reduzidos do proprietário e remoção do status nas listagens).
-
 ### 4. Cadastrar Propriedade
 
 **Endpoint**: `/propriedades`  
